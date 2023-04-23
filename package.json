@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@hazae41/option",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Rust-like Option for TypeScript",
   "homepage": "https://github.com/hazae41/option",
   "repository": "github:hazae41/option",
