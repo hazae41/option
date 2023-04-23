@@ -21,6 +21,9 @@
     "test": "node ./dist/test/index.test.mjs",
     "prepare": "npm run build"
   },
+  "dependencies": {
+    "@hazae41/result": "^1.0.2"
+  },
   "devDependencies": {
     "@hazae41/phobos": "^1.0.10",
     "@rollup/plugin-typescript": "^11.0.0",
@@ -55,8 +58,5 @@
     "esmodules",
     "tested",
     "unit-tested"
-  ],
-  "dependencies": {
-    "@hazae41/result": "^1.0.0"
-  }
+  ]
 }
