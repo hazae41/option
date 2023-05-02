@@ -36,7 +36,7 @@ export class Some<T> {
    * @returns `true` if `Some` and `await somePredicate(this.inner)`, `None` otherwise
    */
   async isSomeAnd(somePredicate: (inner: T) => Promiseable<boolean>): Promise<boolean> {
-    return somePredicate(this.inner)
+    return await somePredicate(this.inner)
   }
 
   /**

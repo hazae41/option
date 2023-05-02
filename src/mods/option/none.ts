@@ -101,7 +101,7 @@ export class None {
    * @returns `this.inner` if `Some`, `await noneCallback()` if `None`
    */
   async unwrapOrElse<U>(noneCallback: () => Promiseable<U>): Promise<U> {
-    return noneCallback()
+    return await noneCallback()
   }
 
   /**
