@@ -75,6 +75,14 @@ export class None {
   }
 
   /**
+   * Transform `Option<Promise<T>>` into `Promise<Option<T>>`
+   * @returns `Promise<Option<T>>`
+   */
+  async await(): Promise<None> {
+    return this
+  }
+
+  /**
    * Maps an `Option<T>` to `Option<U>` by applying a function to a contained value (if `Some`) or returns `None` (if `None`)
    * @param mapper 
    * @returns `Some(await mapper(this.inner))` if `Some`, `this` if `None`

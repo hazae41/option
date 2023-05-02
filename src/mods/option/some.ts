@@ -72,6 +72,14 @@ export class Some<T> {
   }
 
   /**
+   * Transform `Option<Promise<T>>` into `Promise<Option<T>>`
+   * @returns `Promise<Option<T>>`
+   */
+  async await(): Promise<Some<Awaited<T>>> {
+    return new Some(await this.inner)
+  }
+
+  /**
    * Maps an `Option<T>` to `Option<U>` by applying a function to a contained value (if `Some`) or returns `None` (if `None`)
    * @param mapper 
    * @returns `Some(await mapper(this.inner))` if `Some`, `this` if `None`
