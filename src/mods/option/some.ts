@@ -37,6 +37,14 @@ export class Some<T> {
   }
 
   /**
+   * Returns an iterator over the possibly contained value
+   * @yields `this.inner` if `Some`
+   */
+  *[Symbol.iterator](): Iterator<T, void> {
+    yield this.inner
+  }
+
+  /**
    * Get the inner value or throw a NoneError
    * @returns `this.inner` if `Some`
    * @throws `NoneError` if `None` 
@@ -80,21 +88,77 @@ export class Some<T> {
   }
 
   /**
-   * Maps an `Option<T>` to `Option<U>` by applying a function to a contained value (if `Some`) or returns `None` (if `None`)
-   * @param mapper 
-   * @returns `Some(await mapper(this.inner))` if `Some`, `this` if `None`
+   * Calls the given callback with the inner value if `Ok`
+   * @param someCallback 
+   * @returns `this`
    */
-  async map<U>(mapper: (inner: T) => Promiseable<U>): Promise<Some<U>> {
-    return new Some<U>(await mapper(this.inner))
+  async inspect(someCallback: (inner: T) => Promiseable<void>): Promise<this> {
+    await someCallback(this.inner)
+    return this
+  }
+
+  /**
+   * Calls the given callback with the inner value if `Ok`
+   * @param someCallback 
+   * @returns `this`
+   */
+  inspectSync(someCallback: (inner: T) => void): this {
+    someCallback(this.inner)
+    return this
   }
 
   /**
    * Maps an `Option<T>` to `Option<U>` by applying a function to a contained value (if `Some`) or returns `None` (if `None`)
-   * @param mapper 
-   * @returns `Some(mapper(this.inner))` if `Some`, `this` if `None`
+   * @param someMapper 
+   * @returns `Some(await someMapper(this.inner))` if `Some`, `this` if `None`
    */
-  mapSync<U>(mapper: (inner: T) => U): Some<U> {
-    return new Some<U>(mapper(this.inner))
+  async map<U>(someMapper: (inner: T) => Promiseable<U>): Promise<Some<U>> {
+    return new Some<U>(await someMapper(this.inner))
+  }
+
+  /**
+   * Maps an `Option<T>` to `Option<U>` by applying a function to a contained value (if `Some`) or returns `None` (if `None`)
+   * @param someMapper 
+   * @returns `Some(someMapper(this.inner))` if `Some`, `this` if `None`
+   */
+  mapSync<U>(someMapper: (inner: T) => U): Some<U> {
+    return new Some<U>(someMapper(this.inner))
+  }
+
+  /**
+   * Returns `None` if the option is `None`, otherwise returns `value`
+   * @param value 
+   * @returns `None` if `None`, `value` if `Some`
+   */
+  and<U>(value: U): U {
+    return value
+  }
+
+  /**
+   * Returns `None` if the option is `None`, otherwise calls `someMapper` with the wrapped value and returns the result
+   * @param someMapper 
+   * @returns `None` if `None`, `await someMapper(this.inner)` if `Some`
+   */
+  async andThen<U>(someMapper: (inner: T) => Promiseable<U>): Promise<U> {
+    return await someMapper(this.inner)
+  }
+
+  /**
+   * Returns `None` if the option is `None`, otherwise calls `someMapper` with the wrapped value and returns the result
+   * @param someMapper 
+   * @returns `None` if `None`, `someMapper(this.inner)` if `Some`
+   */
+  andThenSync<U>(someMapper: (inner: T) => U): U {
+    return someMapper(this.inner)
+  }
+
+  /**
+   * Returns `this` if `Some`, otherwise returns `value`
+   * @param value 
+   * @returns `this` if `Some`, `value` if `None`
+   */
+  or(value: unknown): this {
+    return this
   }
 
 }
