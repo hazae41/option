@@ -73,7 +73,7 @@ export class None {
    * @returns `this.inner` if `Some`
    * @throws `Error(message)` if `None`
    */
-  expect(message: string) {
+  expect(message: string): never {
     throw new Error(message, { cause: new NoneError() })
   }
 
@@ -318,11 +318,8 @@ export class None {
    * @param value 
    * @returns `None` if both are `Some` or both are `None`, the only `Some` otherwise
    */
-  xor<U>(value: Option<U>) {
-    if (value.isSome())
-      return value
-    else
-      return this
+  xor<U>(value: Option<U>): Option<U> {
+    return value
   }
 
 }

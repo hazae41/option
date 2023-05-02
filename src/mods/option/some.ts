@@ -323,7 +323,7 @@ export class Some<T> {
    * @param value 
    * @returns `None` if both are `Some` or both are `None`, the only `Some` otherwise
    */
-  xor<U>(value: Option<U>) {
+  xor<U>(value: Option<U>): Option<T> {
     if (value.isSome())
       return new None()
     else
