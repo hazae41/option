@@ -330,4 +330,16 @@ export class Some<T> {
       return this
   }
 
+  /**
+   * Zips `this` with another `Option`
+   * @param other 
+   * @returns `Some([this.inner, other.inner])` if both are `Some`, `None` if one of them is `None`
+   */
+  zip<U>(other: Option<U>): Option<[T, U]> {
+    if (other.isSome())
+      return new Some<[T, U]>([this.inner, other.inner])
+    else
+      return other
+  }
+
 }

@@ -322,4 +322,13 @@ export class None {
     return value
   }
 
+  /**
+   * Zips `this` with another `Option`
+   * @param other 
+   * @returns `Some([this.inner, other.inner])` if both are `Some`, `None` if one of them is `None`
+   */
+  zip(other: unknown): None {
+    return this
+  }
+
 }
