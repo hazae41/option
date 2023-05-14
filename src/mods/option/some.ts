@@ -57,7 +57,7 @@ export class Some<T> {
   }
 
   /**
-   * Compile-time safely get `this.inner`
+   * Compile-time safely get `this.inner` if `Some`
    * @returns `this.inner`
    */
   get() {
