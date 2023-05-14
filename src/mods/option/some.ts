@@ -57,6 +57,14 @@ export class Some<T> {
   }
 
   /**
+   * Compile-time safely get `this.inner`
+   * @returns `this.inner`
+   */
+  get() {
+    return this.inner
+  }
+
+  /**
    * Returns an iterator over the possibly contained value
    * @yields `this.inner` if `Some`
    */
