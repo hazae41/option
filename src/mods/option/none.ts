@@ -60,6 +60,14 @@ export class None {
   }
 
   /**
+   * Compile-time safely get `this.inner`
+   * @returns `this.inner`
+   */
+  get(): undefined {
+    return this.inner
+  }
+
+  /**
    * Returns an iterator over the possibly contained value
    * @yields `this.inner` if `Some`
    */
