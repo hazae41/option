@@ -3,9 +3,15 @@ import { Promiseable } from "libs/promises/promises.js"
 import { Option } from "./option.js"
 
 export class NoneError extends Error {
+
   constructor() {
     super(`Option is a None`)
   }
+
+}
+
+export interface NoneInit {
+  /* Nothing */
 }
 
 export class None {
@@ -22,6 +28,10 @@ export class None {
    * @returns `None`
    */
   static new(): None {
+    return new None()
+  }
+
+  static from(init: NoneInit) {
     return new None()
   }
 

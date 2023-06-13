@@ -3,6 +3,10 @@ import { Promiseable } from "libs/promises/promises.js"
 import { None } from "./none.js"
 import { Option } from "./option.js"
 
+export interface SomeInit<T> {
+  inner: T
+}
+
 export class Some<T> {
 
   /**
@@ -20,6 +24,10 @@ export class Some<T> {
    */
   static new<T>(inner: T): Some<T> {
     return new this<T>(inner)
+  }
+
+  static from<T>(init: SomeInit<T>) {
+    return new Some(init.inner)
   }
 
   /**
