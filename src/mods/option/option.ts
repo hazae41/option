@@ -43,4 +43,8 @@ export namespace Option {
     return Option.wrap(inner).mapSync(mapper).get()
   }
 
+  export function unwrap<T>(inner: Optional<T>) {
+    return Option.wrap(inner).unwrap()
+  }
+
 }
