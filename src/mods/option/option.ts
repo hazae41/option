@@ -5,6 +5,9 @@ import { Some, SomeInit } from "./some.js";
 export type Optional<T> =
   T | undefined
 
+export type Nullable<T> =
+  T | null
+
 export type NonOptional<T> =
   T & ({} | null)
 
