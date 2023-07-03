@@ -3,13 +3,7 @@ import { None, NoneInit } from "./none.js";
 import { Some, SomeInit } from "./some.js";
 
 export type Optional<T> =
-  T | undefined
-
-export type Nullable<T> =
-  T | null
-
-export type NonOptional<T> =
-  T & ({} | null)
+  T | undefined | null
 
 export type Option<T> =
   | Some<T>
@@ -32,8 +26,8 @@ export namespace Option {
    * @param inner 
    * @returns `Some<T>` if `T`, `None` if `undefined`
    */
-  export function wrap<T>(inner: Optional<T>): Option<NonOptional<T>> {
-    if (inner === undefined)
+  export function wrap<T>(inner: Optional<T>): Option<T> {
+    if (inner == null)
       return new None()
     return new Some(inner)
   }
