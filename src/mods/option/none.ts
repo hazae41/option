@@ -1,4 +1,4 @@
-import { Err } from "@hazae41/result"
+import { Err, Panic } from "@hazae41/result"
 import { Promiseable } from "libs/promises/promises.js"
 import { Option } from "./option.js"
 
@@ -92,7 +92,7 @@ export class None {
    * @throws `Error(message)` if `None`
    */
   expect(message: string): never {
-    throw new Error(message, { cause: new NoneError() })
+    throw new Panic(message, { cause: this })
   }
 
   /**
@@ -101,7 +101,7 @@ export class None {
    * @throws `NoneError` if `None` 
    */
   unwrap(): never {
-    throw new NoneError()
+    throw new Panic(`Unwrapped`, { cause: this })
   }
 
   /**
