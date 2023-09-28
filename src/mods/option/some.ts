@@ -23,11 +23,11 @@ export class Some<T> {
    * @returns `Some(inner)`
    */
   static new<T>(inner: T): Some<T> {
-    return new this<T>(inner)
+    return new Some<T>(inner)
   }
 
   static from<T>(init: SomeInit<T>) {
-    return new Some(init.inner)
+    return new Some<T>(init.inner)
   }
 
   /**
