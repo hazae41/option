@@ -92,7 +92,7 @@ export class None {
    * @throws `Error(message)` if `None`
    */
   expect(message: string): never {
-    throw new Panic(message, { cause: this })
+    throw Panic.from(new Error(message, { cause: this }))
   }
 
   /**
@@ -101,7 +101,7 @@ export class None {
    * @throws `NoneError` if `None` 
    */
   unwrap(): never {
-    throw new Panic(`Unwrapped`, { cause: this })
+    throw Panic.from(new Error(`A None has been unwrapped`, { cause: this }))
   }
 
   /**
