@@ -1,10 +1,10 @@
 import { Ok } from "@hazae41/result"
-import { Promiseable } from "libs/promises/promises.js"
+import { Awaitable } from "libs/awaitable/index.js"
 import { None } from "./none.js"
 import { Option } from "./option.js"
 
 export interface SomeInit<T> {
-  inner: T
+  readonly inner: T
 }
 
 export class Some<T> {
@@ -17,17 +17,19 @@ export class Some<T> {
     readonly inner: T
   ) { }
 
-  /**
-   * Create a `Some`
-   * @param inner 
-   * @returns `Some(inner)`
-   */
-  static new<T>(inner: T): Some<T> {
+  static create<T>(inner: T): Some<T> {
     return new Some<T>(inner)
   }
 
   static from<T>(init: SomeInit<T>) {
     return new Some<T>(init.inner)
+  }
+
+  /**
+   * @deprecated
+   */
+  static new<T>(inner: T): Some<T> {
+    return new Some<T>(inner)
   }
 
   /**
@@ -43,7 +45,7 @@ export class Some<T> {
    * @param somePredicate 
    * @returns `true` if `Some` and `await somePredicate(this.inner)`, `None` otherwise
    */
-  async isSomeAnd(somePredicate: (inner: T) => Promiseable<boolean>): Promise<boolean> {
+  async isSomeAnd(somePredicate: (inner: T) => Awaitable<boolean>): Promise<boolean> {
     return await somePredicate(this.inner)
   }
 
@@ -166,7 +168,7 @@ export class Some<T> {
    * @param somePredicate 
    * @returns `Some` if `Some` and `await somePredicate(this.inner)`, `None` otherwise
    */
-  async filter(somePredicate: (inner: T) => Promiseable<boolean>): Promise<Option<T>> {
+  async filter(somePredicate: (inner: T) => Awaitable<boolean>): Promise<Option<T>> {
     if (await somePredicate(this.inner))
       return this
     else
@@ -207,7 +209,7 @@ export class Some<T> {
    * @param someCallback 
    * @returns `this`
    */
-  async inspect(someCallback: (inner: T) => Promiseable<void>): Promise<this> {
+  async inspect(someCallback: (inner: T) => Awaitable<void>): Promise<this> {
     await someCallback(this.inner)
     return this
   }
@@ -227,7 +229,7 @@ export class Some<T> {
    * @param someMapper 
    * @returns `Some(await someMapper(this.inner))` if `Some`, `this` if `None`
    */
-  async map<U>(someMapper: (inner: T) => Promiseable<U>): Promise<Some<U>> {
+  async map<U>(someMapper: (inner: T) => Awaitable<U>): Promise<Some<U>> {
     return new Some<U>(await someMapper(this.inner))
   }
 
@@ -246,7 +248,7 @@ export class Some<T> {
    * @param someMapper 
    * @returns `value` if `None`, `await someMapper(this.inner)` if `Some`
    */
-  async mapOr<U>(value: U, someMapper: (inner: T) => Promiseable<U>): Promise<U> {
+  async mapOr<U>(value: U, someMapper: (inner: T) => Awaitable<U>): Promise<U> {
     return await someMapper(this.inner)
   }
 
@@ -266,7 +268,7 @@ export class Some<T> {
    * @param someMapper 
    * @returns `await someMapper(this.inner)` if `Some`, `await noneCallback()` if `None`
    */
-  async mapOrElse<U>(noneCallback: unknown, someMapper: (inner: T) => Promiseable<U>): Promise<U> {
+  async mapOrElse<U>(noneCallback: unknown, someMapper: (inner: T) => Awaitable<U>): Promise<U> {
     return await someMapper(this.inner)
   }
 
@@ -294,7 +296,7 @@ export class Some<T> {
    * @param someMapper 
    * @returns `None` if `None`, `await someMapper(this.inner)` if `Some`
    */
-  async andThen<U>(someMapper: (inner: T) => Promiseable<U>): Promise<U> {
+  async andThen<U>(someMapper: (inner: T) => Awaitable<U>): Promise<U> {
     return await someMapper(this.inner)
   }
 

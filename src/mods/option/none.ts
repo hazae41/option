@@ -1,5 +1,5 @@
 import { Err } from "@hazae41/result"
-import { Promiseable } from "libs/promises/promises.js"
+import { Awaitable } from "libs/awaitable/index.js"
 import { Option } from "./option.js"
 
 export class NoneError extends Error {
@@ -23,15 +23,18 @@ export class None {
     readonly inner = undefined
   ) { }
 
-  /**
-   * Create a `None`
-   * @returns `None`
-   */
-  static new(): None {
+  static create(): None {
     return new None()
   }
 
   static from(init: NoneInit) {
+    return new None()
+  }
+
+  /**
+   * @deprecated
+   */
+  static new(): None {
     return new None()
   }
 
@@ -118,7 +121,7 @@ export class None {
    * @param noneCallback 
    * @returns `this.inner` if `Some`, `await noneCallback()` if `None`
    */
-  async unwrapOrElse<U>(noneCallback: () => Promiseable<U>): Promise<U> {
+  async unwrapOrElse<U>(noneCallback: () => Awaitable<U>): Promise<U> {
     return await noneCallback()
   }
 
@@ -153,7 +156,7 @@ export class None {
    * @param noneCallback 
    * @returns `Ok(this.inner)` if `Some`, `Err(await noneCallback())` is `None`
    */
-  async okOrElse<U>(noneCallback: () => Promiseable<U>): Promise<Err<U>> {
+  async okOrElse<U>(noneCallback: () => Awaitable<U>): Promise<Err<U>> {
     return new Err(await noneCallback())
   }
 
@@ -263,7 +266,7 @@ export class None {
    * @param someMapper 
    * @returns `await someMapper(this.inner)` if `Some`, `await noneCallback()` if `None`
    */
-  async mapOrElse<U>(noneCallback: () => Promiseable<U>, someMapper: unknown): Promise<U> {
+  async mapOrElse<U>(noneCallback: () => Awaitable<U>, someMapper: unknown): Promise<U> {
     return await noneCallback()
   }
 
@@ -318,7 +321,7 @@ export class None {
    * @param noneCallback 
    * @returns `this` if `Some`, `await noneCallback()` if `None`
    */
-  async orElse<U>(noneCallback: () => Promiseable<U>): Promise<U> {
+  async orElse<U>(noneCallback: () => Awaitable<U>): Promise<U> {
     return await noneCallback()
   }
 
