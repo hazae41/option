@@ -26,10 +26,11 @@ export class Some<T> {
   }
 
   /**
-   * @deprecated
+   * Returns an iterator over the possibly contained value
+   * @yields `this.inner` if `Some`
    */
-  static new<T>(inner: T): Some<T> {
-    return new Some<T>(inner)
+  *[Symbol.iterator](): Iterator<T, void> {
+    yield this.inner
   }
 
   /**
@@ -75,29 +76,18 @@ export class Some<T> {
   }
 
   /**
-   * Returns an iterator over the possibly contained value
-   * @yields `this.inner` if `Some`
+   * Get the inner value or throw an error
+   * @returns 
    */
-  *[Symbol.iterator](): Iterator<T, void> {
-    yield this.inner
-  }
-
-  /**
-   * Get the inner value if `Some`, throw `Error(message)` otherwise
-   * @param message 
-   * @returns `this.inner` if `Some`
-   * @throws `Error(message)` if `None`
-   */
-  expect(message: string) {
+  getOrThrow() {
     return this.inner
   }
 
   /**
-   * Get the inner value or throw a NoneError
-   * @returns `this.inner` if `Some`
-   * @throws `NoneError` if `None` 
+   * Get the inner value or `null`
+   * @returns 
    */
-  unwrap(): T {
+  getOrNull(): T {
     return this.inner
   }
 
@@ -106,7 +96,7 @@ export class Some<T> {
    * @param value 
    * @returns `this.inner` if `Some`, `value` if `None`
    */
-  unwrapOr(value: unknown): T {
+  getOr(value: unknown): T {
     return this.inner
   }
 
@@ -115,7 +105,7 @@ export class Some<T> {
    * @param noneCallback 
    * @returns `this.inner` if `Some`, `await noneCallback()` if `None`
    */
-  async unwrapOrElse(noneCallback: unknown): Promise<T> {
+  async getOrElse(noneCallback: unknown): Promise<T> {
     return this.inner
   }
 
@@ -124,7 +114,7 @@ export class Some<T> {
    * @param noneCallback 
    * @returns `this.inner` if `Some`, `noneCallback()` if `None`
    */
-  unwrapOrElseSync(noneCallback: unknown): T {
+  getOrElseSync(noneCallback: unknown): T {
     return this.inner
   }
 

@@ -1,4 +1,4 @@
-import { Err } from "@hazae41/result"
+import { Err, Panic } from "@hazae41/result"
 import { Awaitable } from "libs/awaitable/index.js"
 import { Option } from "./option.js"
 
@@ -32,10 +32,11 @@ export class None {
   }
 
   /**
-   * @deprecated
+   * Returns an iterator over the possibly contained value
+   * @yields `this.inner` if `Some`
    */
-  static new(): None {
-    return new None()
+  *[Symbol.iterator](): Iterator<never, void> {
+    return
   }
 
   /**
@@ -76,35 +77,24 @@ export class None {
    * Compile-time safely get `this.inner`
    * @returns `this.inner`
    */
-  get(): undefined {
-    return this.inner
+  get(): never {
+    throw new Panic()
   }
 
   /**
-   * Returns an iterator over the possibly contained value
-   * @yields `this.inner` if `Some`
+   * Get the inner value or throw an error
+   * @returns 
    */
-  *[Symbol.iterator](): Iterator<never, void> {
+  getOrThrow() {
+    throw new NoneError()
+  }
+
+  /**
+   * Get the inner value or `null`
+   * @returns 
+   */
+  getOrNull(): void {
     return
-  }
-
-  /**
-   * Get the inner value if `Some`, throw `Error(message)` otherwise
-   * @param message 
-   * @returns `this.inner` if `Some`
-   * @throws `Error(message)` if `None`
-   */
-  expect(message: string): never {
-    throw new Error(message)
-  }
-
-  /**
-   * Get the inner value or throw a NoneError
-   * @returns `this.inner` if `Some`
-   * @throws `NoneError` if `None` 
-   */
-  unwrap(): never {
-    throw new Error(`A None has been unwrapped`)
   }
 
   /**
@@ -112,7 +102,7 @@ export class None {
    * @param value 
    * @returns `this.inner` if `Some`, `value` if `None`
    */
-  unwrapOr<U>(value: U): U {
+  getOr<U>(value: U): U {
     return value
   }
 
@@ -121,7 +111,7 @@ export class None {
    * @param noneCallback 
    * @returns `this.inner` if `Some`, `await noneCallback()` if `None`
    */
-  async unwrapOrElse<U>(noneCallback: () => Awaitable<U>): Promise<U> {
+  async getOrElse<U>(noneCallback: () => Awaitable<U>): Promise<U> {
     return await noneCallback()
   }
 
@@ -130,7 +120,7 @@ export class None {
    * @param noneCallback 
    * @returns `this.inner` if `Some`, `noneCallback()` if `None`
    */
-  unwrapOrElseSync<U>(noneCallback: () => U): U {
+  getOrElseSync<U>(noneCallback: () => U): U {
     return noneCallback()
   }
 
