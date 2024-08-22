@@ -1,4 +1,3 @@
-import { Promiseable } from "libs/promises/promises.js";
 import { None, NoneInit } from "./none.js";
 import { Some, SomeInit } from "./some.js";
 
@@ -36,18 +35,6 @@ export namespace Option {
     if (inner == null)
       return new None()
     return new Some(inner)
-  }
-
-  export async function map<T, U>(inner: Nullable<T>, mapper: (inner: T) => Promiseable<U>) {
-    return Option.wrap(inner).map(mapper).then(o => o.get())
-  }
-
-  export function mapSync<T, U>(inner: Nullable<T>, mapper: (inner: T) => U) {
-    return Option.wrap(inner).mapSync(mapper).get()
-  }
-
-  export function unwrap<T>(inner: Nullable<T>) {
-    return Option.wrap(inner).unwrap()
   }
 
 }
