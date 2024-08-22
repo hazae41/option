@@ -2,6 +2,7 @@ import { Err, Panic } from "@hazae41/result"
 import { Awaitable } from "libs/awaitable/index.js"
 import { Option } from "./option.js"
 
+
 export class NoneError extends Error {
 
   constructor() {
@@ -77,7 +78,7 @@ export class None {
    * Compile-time safely get `this.inner`
    * @returns `this.inner`
    */
-  get(): never {
+  get(this: never): never {
     throw new Panic()
   }
 
@@ -85,7 +86,7 @@ export class None {
    * Get the inner value or throw an error
    * @returns 
    */
-  getOrThrow() {
+  getOrThrow(): never {
     throw new NoneError()
   }
 
