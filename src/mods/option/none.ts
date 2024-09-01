@@ -94,7 +94,7 @@ export class None {
    * Get the inner value or `null`
    * @returns 
    */
-  getOrNull(): void {
+  getOrNull(): undefined {
     return
   }
 
